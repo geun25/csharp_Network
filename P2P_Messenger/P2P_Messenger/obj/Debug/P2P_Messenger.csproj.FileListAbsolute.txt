@@ -1,0 +1,10 @@
+C:\Users\jin yeong\.vscode\csharp_Network\P2P_Messenger\P2P_Messenger\obj\Debug\P2P_Messenger.csproj.AssemblyReference.cache
+C:\Users\jin yeong\.vscode\csharp_Network\P2P_Messenger\P2P_Messenger\obj\Debug\P2P_Messenger.Properties.Resources.resources
+C:\Users\jin yeong\.vscode\csharp_Network\P2P_Messenger\P2P_Messenger\obj\Debug\P2P_Messenger.csproj.GenerateResource.cache
+C:\Users\jin yeong\.vscode\csharp_Network\P2P_Messenger\P2P_Messenger\bin\Debug\P2P_Messenger.exe.config
+C:\Users\jin yeong\.vscode\csharp_Network\P2P_Messenger\P2P_Messenger\bin\Debug\P2P_Messenger.exe
+C:\Users\jin yeong\.vscode\csharp_Network\P2P_Messenger\P2P_Messenger\bin\Debug\P2P_Messenger.pdb
+C:\Users\jin yeong\.vscode\csharp_Network\P2P_Messenger\P2P_Messenger\obj\Debug\P2P_Messenger.Form1.resources
+C:\Users\jin yeong\.vscode\csharp_Network\P2P_Messenger\P2P_Messenger\obj\Debug\P2P_Messenger.csproj.CoreCompileInputs.cache
+C:\Users\jin yeong\.vscode\csharp_Network\P2P_Messenger\P2P_Messenger\obj\Debug\P2P_Messenger.exe
+C:\Users\jin yeong\.vscode\csharp_Network\P2P_Messenger\P2P_Messenger\obj\Debug\P2P_Messenger.pdb

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31613.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2P_Messenger", "P2P_Messenger\P2P_Messenger.csproj", "{C355C6AB-F7B3-4AEE-BF5E-D77DA1CC77C0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C355C6AB-F7B3-4AEE-BF5E-D77DA1CC77C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C355C6AB-F7B3-4AEE-BF5E-D77DA1CC77C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C355C6AB-F7B3-4AEE-BF5E-D77DA1CC77C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C355C6AB-F7B3-4AEE-BF5E-D77DA1CC77C0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {487D114D-42B8-4315-82B9-0654AB9D9D22}
+	EndGlobalSection
+EndGlobal
