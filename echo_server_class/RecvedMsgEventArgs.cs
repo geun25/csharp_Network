@@ -21,7 +21,7 @@ namespace echo_server_class
         public RecvedMsgEventArgs(IPEndPoint remote_ep, string msg)
         {
             RemoteEP = remote_ep;
-            MSg = msg;
+            Msg = msg;
         }
 
         public string IPStr

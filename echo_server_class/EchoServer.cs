@@ -14,7 +14,6 @@ namespace echo_server_class
             get;
             private set;
         }
-
         public int Port
         {
             get;
