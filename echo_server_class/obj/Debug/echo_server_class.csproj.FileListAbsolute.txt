@@ -1,2 +1,0 @@
-C:\Users\jin yeong\.vscode\csharp_Network\echo_server_class\obj\Debug\echo_server_class.csproj.AssemblyReference.cache
-C:\Users\jin yeong\.vscode\csharp_Network\echo_server_class\obj\Debug\echo_server_class.csproj.CoreCompileInputs.cache

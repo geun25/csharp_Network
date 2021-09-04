@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0987D333-7D63-4F0B-92A9-4C6E3A882910}</ProjectGuid>
+    <ProjectGuid>{DEF6DD6E-BC1F-4913-BDC2-2C4B06B62635}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>echo_client</RootNamespace>
-    <AssemblyName>echo_client</AssemblyName>
+    <RootNamespace>echo_server_def_class</RootNamespace>
+    <AssemblyName>echo_server_def_class</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,8 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcceptedEventArgs.cs" />
+    <Compile Include="ClosedEventArgs.cs" />
+    <Compile Include="EchoServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecvedMsgEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
