@@ -66,7 +66,7 @@ namespace echo_server
                     string msg = br.ReadString();
                     br.Close();
                     ms.Close();
-                    
+
                     Console.WriteLine($"{iep.Address}:{iep.Port} -> {msg}");
                     if (msg == "exit")
                         break;
