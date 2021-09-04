@@ -1,0 +1,6 @@
+C:\Users\jin yeong\.vscode\csharp_Network\닷넷 리모팅\GeneralLib\bin\Debug\GeneralLib.dll
+C:\Users\jin yeong\.vscode\csharp_Network\닷넷 리모팅\GeneralLib\bin\Debug\GeneralLib.pdb
+C:\Users\jin yeong\.vscode\csharp_Network\닷넷 리모팅\GeneralLib\obj\Debug\GeneralLib.csproj.AssemblyReference.cache
+C:\Users\jin yeong\.vscode\csharp_Network\닷넷 리모팅\GeneralLib\obj\Debug\GeneralLib.csproj.CoreCompileInputs.cache
+C:\Users\jin yeong\.vscode\csharp_Network\닷넷 리모팅\GeneralLib\obj\Debug\GeneralLib.dll
+C:\Users\jin yeong\.vscode\csharp_Network\닷넷 리모팅\GeneralLib\obj\Debug\GeneralLib.pdb
