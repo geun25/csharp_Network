@@ -41,7 +41,20 @@ namespace FileServer
                 sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 IPAddress ipaddr = IPAddress.Parse(IPStr);
                 IPEndPoint iep = new IPEndPoint(ipaddr, Port);
-                sock.Bind(iep);
+                bool check = true;
+                while(check)
+                {
+                    try
+                    {
+                        sock.Bind(iep);
+                        check = false;
+                    }
+                    catch
+                    {
+                        Port += 2;
+                        iep = new IPEndPoint(ipaddr, Port);
+                    }
+                }
                 sock.Listen(5);
                 AcceptLoopAsync();
             }
