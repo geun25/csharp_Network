@@ -1,38 +1,41 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 
 namespace P2P_Messenger
 {
-    public class SmsgServer
+    public class UserInfoCSServer
     {
-        public event SmsgRecvEventHandler SmsgRecvEventHandler = null;
+        public event UserInfoEventHandler UserInfoEventHandler = null;
+
         public string IPStr
         {
             get;
-            private set;
+            set;
         }
 
         public int Port
         {
             get;
-            private set;
+            set;
         }
 
-        public SmsgServer(string ipstr, int port)
+        public UserInfoCSServer(string ipstr, int port)
         {
             IPStr = ipstr;
             Port = port;
         }
+        Socket sock = null;
 
-        Socket sock;
         public bool Start()
         {
             try
             {
                 sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                IPEndPoint iep = new IPEndPoint(IPAddress.Parse(IPStr), Port);
-                bool check = true; 
+                IPAddress ipaddr = IPAddress.Parse(IPStr);
+                IPEndPoint iep = new IPEndPoint(ipaddr, Port);
+                bool check = true;
                 while(check)
                 {
                     try
@@ -43,10 +46,9 @@ namespace P2P_Messenger
                     catch
                     {
                         Port += 2;
-                        iep = new IPEndPoint(IPAddress.Parse(IPStr), Port);
+                        iep = new IPEndPoint(ipaddr, Port);
                     }
                 }
-
                 sock.Listen(5);
                 AcceptLoopAsync();
                 return true;
@@ -61,7 +63,7 @@ namespace P2P_Messenger
         private void AcceptLoopAsync()
         {
             AcceptDele dele = AcceptLoop;
-            dele.BeginInvoke(null, null); // 비동기 실행
+            dele.BeginInvoke(null, null);
         }
 
         private void AcceptLoop()
@@ -70,26 +72,32 @@ namespace P2P_Messenger
             while(true)
             {
                 dosock = sock.Accept();
-                DoIt(dosock);
+                DoItAsync(dosock);
             }
+        }
+
+        delegate void DoItDele(Socket dosock);
+        private void DoItAsync(Socket dosock)
+        {
+            DoItDele dele = DoIt;
+            dele.BeginInvoke(dosock, null, null);
         }
 
         private void DoIt(Socket dosock)
         {
-            IPEndPoint remote = dosock.RemoteEndPoint as IPEndPoint;
             byte[] packet = new byte[1024];
             dosock.Receive(packet);
-            dosock.Close();
             MemoryStream ms = new MemoryStream(packet);
             BinaryReader br = new BinaryReader(ms);
-            string msg = br.ReadString();
+            string id = br.ReadString();
+            string ip = br.ReadString();
+            int sport = br.ReadInt32();
+            int fport = br.ReadInt32();
             br.Close();
             ms.Close();
-
-            if(SmsgRecvEventHandler != null)
-            {
-                SmsgRecvEventHandler(this, new SmsgRecvEventArgs(remote, msg));
-            }
+            if(UserInfoEventHandler != null)
+                UserInfoEventHandler(this, new UserInfoEventArgs(id, ip, sport, fport));
+            dosock.Close();
         }
     }
 }

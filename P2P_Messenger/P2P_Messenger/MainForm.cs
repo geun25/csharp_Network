@@ -1,16 +1,33 @@
-﻿using FileClient;
+﻿using EHAAALib;
+using FileClient;
 using FileServer;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Net.Sockets;
 using System.Windows.Forms;
 
 namespace P2P_Messenger
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        string ID
         {
+            get;
+            set;
+        }
+
+        string PW
+        {
+            get;
+            set;
+        }
+
+        public MainForm(string id, string pw)
+        {
+            ID = id;
+            PW = pw;
             InitializeComponent();
         }
 
@@ -18,7 +35,7 @@ namespace P2P_Messenger
         {
             string ip = tbox_my_ip.Text;
             int port = 0;
-            if(int.TryParse(tbox_my_port.Text, out port) == false)
+            if (int.TryParse(tbox_my_port.Text, out port) == false)
             {
                 MessageBox.Show("포트를 잘못 입력하셨네요.");
                 return;
@@ -39,7 +56,7 @@ namespace P2P_Messenger
         delegate void MyDele(string msg);
         private void AddMessage(string msg)
         {
-            if(lbox_msg.InvokeRequired) // 크로스 스레드 문제 해결
+            if (lbox_msg.InvokeRequired) // 크로스 스레드 문제 해결
             {
                 MyDele dele = AddMessage;
                 object[] objs = new object[] { msg };
@@ -52,11 +69,11 @@ namespace P2P_Messenger
         }
 
         string other_ip;
-        int other_port= 10300;
+        int other_port = 10300;
         private void btn_other_set_Click(object sender, EventArgs e)
         {
             other_ip = tbox_other_ip.Text;
-            if(int.TryParse(tbox_other_port.Text, out other_port) == false)
+            if (int.TryParse(tbox_other_port.Text, out other_port) == false)
             {
                 MessageBox.Show("포트번호를 정수로 변환할 수 없습니다");
             }
@@ -79,7 +96,7 @@ namespace P2P_Messenger
             FileSendClient fsc = new FileSendClient(other_ip, other_fport);
             fsc.SendFileDataEventHandler += Fsc_SendFileDataEventHandler;
             string[] fs = e.Data.GetData(DataFormats.FileDrop) as string[];
-            foreach(string f in fs)
+            foreach (string f in fs)
             {
                 fsc.SendAsync(f);
                 string msg = string.Format($"{other_ip}:{other_fport}에게 파일 전송 시작");
@@ -100,7 +117,7 @@ namespace P2P_Messenger
         {
             string ip = tbox_my_ip.Text;
             int port = 0;
-            if(int.TryParse(tbox_my_fport.Text, out port)==false)
+            if (int.TryParse(tbox_my_fport.Text, out port) == false)
             {
                 MessageBox.Show("포트를 잘못 입력하셨네요.");
                 return;
@@ -143,7 +160,7 @@ namespace P2P_Messenger
         {
             FileStream fs = fsdic[e.FileName];
             fs.Write(e.Data, 0, e.Data.Length);
-            if(e.RemainLength == 0)
+            if (e.RemainLength == 0)
             {
                 string msg = string.Format($"{e.RemoteEndPoint.Address}:{e.RemoteEndPoint.Port}에서 파일{e.FileName} 전송 완료");
                 AddMessage(msg);
@@ -168,6 +185,122 @@ namespace P2P_Messenger
         {
             if (int.TryParse(tbox_other_fport.Text, out other_fport) == false)
                 MessageBox.Show("포트 번호를 정수로 변환할 수 없습니다.");
+        }
+
+        EHAAA Eaaa
+        {
+            get
+            {
+                return Activator.GetObject(typeof(EHAAA), "http://172.30.1.47:10800" +
+                    "/AAASVC") as EHAAA;
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Eaaa.KeepAlive(ID);
+        }
+
+        private void btn_logout_Click(object sender, EventArgs e)
+        {
+            Eaaa.Logout(ID);
+            timer1.Enabled = false;
+            Close();
+        }
+
+        private void btn_withdraw_Click(object sender, EventArgs e)
+        {
+            Eaaa.Withdraw(ID, PW);
+            timer1.Enabled = false;
+            Close();
+        }
+
+        int sport = 10400;
+        int fport = 10200;
+        int bport = 10600;
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            timer1.Enabled = true;
+            MySSet();
+            MYFSet();
+            UserInfoCSServer ucbs = new UserInfoCSServer(DefAddress.ToString(), bport);
+            ucbs.UserInfoEventHandler += Ucbs_UserInfoEventHandler;
+            if (ucbs.Start() == false)
+                MessageBox.Show("헐...;;");
+            bport = ucbs.Port;
+            Eaaa.KeepAlive(ID, DefAddress.ToString(), sport, fport, bport);
+        }
+
+        private void Ucbs_UserInfoEventHandler(object sender, UserInfoEventArgs e)
+        {
+            if (e.FPort == 0)
+            {
+                UserInfoEventArgs ru = null;
+                foreach (UserInfoEventArgs uiea in lbox_user.Items)
+                {
+                    if(uiea.ID == e.ID)
+                    {
+                        ru = uiea;
+                        break;
+                    }    
+                }
+                if(ru != null)
+                    lbox_user.Items.Remove(e);
+            }
+            else
+                lbox_user.Items.Add(e);
+        }
+
+        IPAddress DefAddress
+        {
+            get
+            {
+                string hname = Dns.GetHostName();
+                IPHostEntry ihe = Dns.GetHostEntry(hname);
+                foreach(IPAddress ipaddr in ihe.AddressList)
+                {
+                    if (ipaddr.AddressFamily == AddressFamily.InterNetwork)
+                        return ipaddr;
+                }
+                return IPAddress.Any;
+            }
+
+        }
+
+        private void MYFSet()
+        {         
+            FileRecvServ frs = new FileRecvServ(DefAddress.ToString(), fport);
+            frs.AcceptedEventHandler += Frs_AcceptedEventHandler;
+            frs.ClosedEventHandler += Frs_ClosedEventHandler;
+            frs.FileDataRecvEventHandler += Frs_FileDataRecvEventHandler;
+            frs.FileLengthRecvEventHandler += Frs_FileLengthRecvEventHandler;
+            frs.RecvFileNameEventHandler += Frs_RecvFileNameEventHandler;
+
+            if (frs.Start() == false)
+                MessageBox.Show("파일 수신 서버 가동 실패");
+            else
+            {
+                fport = frs.Port;
+            }
+        }
+
+        private void MySSet()
+        {
+            
+            SmsgServer sms = new SmsgServer(DefAddress.ToString(), sport);
+            sms.SmsgRecvEventHandler += Sms_SmsgRecvEventHandler;
+            if (sms.Start() == false)
+                MessageBox.Show("서버 가동 실패!");
+            else
+                sport = sms.Port;
+        }
+
+        private void lbox_user_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UserInfoEventArgs uie = lbox_user.SelectedItem as UserInfoEventArgs;
+            other_ip = uie.IPStr;
+            other_port = uie.SPort;
+            other_fport = uie.FPort;
         }
     }
 }

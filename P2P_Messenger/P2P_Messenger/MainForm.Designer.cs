@@ -1,7 +1,7 @@
 ﻿
 namespace P2P_Messenger
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// 필수 디자이너 변수입니다.
@@ -29,6 +29,7 @@ namespace P2P_Messenger
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tbox_my_ip = new System.Windows.Forms.TextBox();
             this.tbox_my_port = new System.Windows.Forms.TextBox();
             this.btn_my_set = new System.Windows.Forms.Button();
@@ -42,6 +43,10 @@ namespace P2P_Messenger
             this.tbox_other_fport = new System.Windows.Forms.TextBox();
             this.btn_my_fset = new System.Windows.Forms.Button();
             this.tbox_my_fport = new System.Windows.Forms.TextBox();
+            this.lbox_user = new System.Windows.Forms.ListBox();
+            this.btn_logout = new System.Windows.Forms.Button();
+            this.btn_withdraw = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // tbox_my_ip
@@ -97,9 +102,9 @@ namespace P2P_Messenger
             this.lbox_msg.AllowDrop = true;
             this.lbox_msg.FormattingEnabled = true;
             this.lbox_msg.ItemHeight = 18;
-            this.lbox_msg.Location = new System.Drawing.Point(59, 105);
+            this.lbox_msg.Location = new System.Drawing.Point(382, 105);
             this.lbox_msg.Name = "lbox_msg";
-            this.lbox_msg.Size = new System.Drawing.Size(1355, 526);
+            this.lbox_msg.Size = new System.Drawing.Size(1032, 526);
             this.lbox_msg.TabIndex = 6;
             this.lbox_msg.DragDrop += new System.Windows.Forms.DragEventHandler(this.lbox_msg_DragDrop);
             this.lbox_msg.DragEnter += new System.Windows.Forms.DragEventHandler(this.lbox_msg_DragEnter);
@@ -155,12 +160,50 @@ namespace P2P_Messenger
             this.tbox_my_fport.Size = new System.Drawing.Size(179, 28);
             this.tbox_my_fport.TabIndex = 9;
             // 
-            // Form1
+            // lbox_user
+            // 
+            this.lbox_user.FormattingEnabled = true;
+            this.lbox_user.ItemHeight = 18;
+            this.lbox_user.Location = new System.Drawing.Point(59, 105);
+            this.lbox_user.Name = "lbox_user";
+            this.lbox_user.Size = new System.Drawing.Size(317, 472);
+            this.lbox_user.TabIndex = 13;
+            this.lbox_user.SelectedIndexChanged += new System.EventHandler(this.lbox_user_SelectedIndexChanged);
+            // 
+            // btn_logout
+            // 
+            this.btn_logout.Location = new System.Drawing.Point(59, 585);
+            this.btn_logout.Name = "btn_logout";
+            this.btn_logout.Size = new System.Drawing.Size(127, 46);
+            this.btn_logout.TabIndex = 14;
+            this.btn_logout.Text = "로그아웃";
+            this.btn_logout.UseVisualStyleBackColor = true;
+            this.btn_logout.Click += new System.EventHandler(this.btn_logout_Click);
+            // 
+            // btn_withdraw
+            // 
+            this.btn_withdraw.Location = new System.Drawing.Point(249, 585);
+            this.btn_withdraw.Name = "btn_withdraw";
+            this.btn_withdraw.Size = new System.Drawing.Size(127, 46);
+            this.btn_withdraw.TabIndex = 15;
+            this.btn_withdraw.Text = "탈퇴";
+            this.btn_withdraw.UseVisualStyleBackColor = true;
+            this.btn_withdraw.Click += new System.EventHandler(this.btn_withdraw_Click);
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 3000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // MainForm
             // 
             this.AcceptButton = this.btn_send;
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1555, 753);
+            this.Controls.Add(this.btn_withdraw);
+            this.Controls.Add(this.btn_logout);
+            this.Controls.Add(this.lbox_user);
             this.Controls.Add(this.btn_other_fset);
             this.Controls.Add(this.tbox_other_fport);
             this.Controls.Add(this.btn_my_fset);
@@ -174,8 +217,9 @@ namespace P2P_Messenger
             this.Controls.Add(this.btn_my_set);
             this.Controls.Add(this.tbox_my_port);
             this.Controls.Add(this.tbox_my_ip);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -196,6 +240,10 @@ namespace P2P_Messenger
         private System.Windows.Forms.TextBox tbox_other_fport;
         private System.Windows.Forms.Button btn_my_fset;
         private System.Windows.Forms.TextBox tbox_my_fport;
+        private System.Windows.Forms.ListBox lbox_user;
+        private System.Windows.Forms.Button btn_logout;
+        private System.Windows.Forms.Button btn_withdraw;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
