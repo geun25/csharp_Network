@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace EHAAALib
 {
-    class UserInfo
+    class UserInfo // 외부에서 사용하지는 않을것이기 때문에 public으로 노출 필요없음
     {
         internal string ID
         {
@@ -16,7 +16,7 @@ namespace EHAAALib
             private set;
         }
 
-        internal DateTime LastKA
+        internal DateTime LastKA // KeepAlive Time
         {
             get;
             set;
@@ -28,19 +28,19 @@ namespace EHAAALib
             set;
         }
 
-        internal int SPort
+        internal int SPort // Short Message Port
         {
             get;
             set;
         }
 
-        internal int FPort
+        internal int FPort // File Transfer Port
         {
             get;
             set;
         }
 
-        internal int BPort
+        internal int BPort // 로그인 정보 수신 Port
         {
             get;
             set;
@@ -106,15 +106,16 @@ namespace EHAAALib
 
         void CheckKeepAlive(object state)
         {
-            Console.Write(".");
+            Console.Write("."); // 확인용
             List<string> dlist = new List<string>();
             foreach(KeyValuePair<string, UserInfo> ui in ui_dic)
             {             
-                TimeSpan ts = DateTime.Now - ui.Value.LastKA;
+                TimeSpan ts = DateTime.Now - ui.Value.LastKA; // 현재 시간과 연산하여 KeepAlive여부 판단
                 if (ts.TotalSeconds > 9)
-                    dlist.Add(ui.Key); // 예외 발생문제 때문에 삭제 목록에만 추가.
+                    dlist.Add(ui.Key); 
             }
 
+            // 예외발생 문제 때문에 foreach문 밖에서 삭제 작업수행
             foreach(string id in dlist)
             {
                 ui_dic.Remove(id);
@@ -130,7 +131,7 @@ namespace EHAAALib
                 {
                     string oip = ui.IPStr;
                     int obport = ui.BPort;
-                    SendUserInfoAsync(oip, obport, id, "", 0, 0);
+                    SendUserInfoAsync(oip, obport, id, "", 0, 0); // default 값을 보내 로그아웃임을 알림.
                 }
             }
             catch
@@ -138,7 +139,7 @@ namespace EHAAALib
             }
         }
 
-        public void Logout(string id)
+        public void Logout(string id) // 정상적인 로그아웃
         {
             if (ui_dic.ContainsKey(id) == false)
                 return;
@@ -185,7 +186,7 @@ namespace EHAAALib
                 DataRow dr = mtb.Rows.Find(id);
                 if (dr == null)
                     return 1; // 미가입 ID
-                if (ui_dic.ContainsKey(id) == false)
+                if (ui_dic.ContainsKey(id) == false) // 가입은 되어있지만, 현재 로그인 되어있지 않음
                 {
                     if (dr["pw"].ToString() == pw)
                         return 0; // 로그인 성공
