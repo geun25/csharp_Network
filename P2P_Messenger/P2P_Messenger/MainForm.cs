@@ -95,7 +95,7 @@ namespace P2P_Messenger
         {
             FileSendClient fsc = new FileSendClient(other_ip, other_fport);
             fsc.SendFileDataEventHandler += Fsc_SendFileDataEventHandler;
-            string[] fs = e.Data.GetData(DataFormats.FileDrop) as string[];
+            string[] fs = e.Data.GetData(DataFormats.FileDrop) as string[]; // 드래그한 파일 목록
             foreach (string f in fs)
             {
                 fsc.SendAsync(f);
@@ -191,8 +191,7 @@ namespace P2P_Messenger
         {
             get
             {
-                return Activator.GetObject(typeof(EHAAA), "http://172.30.1.47:10800" +
-                    "/AAASVC") as EHAAA;
+                return Activator.GetObject(typeof(EHAAA), "http://172.30.1.47:10800" + "/AAASVC") as EHAAA;
             }
         }
 
@@ -264,7 +263,6 @@ namespace P2P_Messenger
                 }
                 return IPAddress.Any;
             }
-
         }
 
         private void MYFSet()
